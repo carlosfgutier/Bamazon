@@ -51,13 +51,20 @@ function checkInventory() {
 	console.log('\nStocked Items\n');
 	connection.query('SELECT * FROM products', function(err, res) {
 		if (err) throw err;
-	    console.log(res);
-	    managerSays();
+	    for (var i = 0; i < res.length; i++) {
+			console.log('ID: ' + res[i].item_id);
+			console.log('Item: ' + res[i].product_name);
+			console.log('Price: ' + res[i].price);
+			console.log('Units in stock: ' + res[i].stock_quantity);
+			console.log('Department : ' + res[i].department_name + '\n');
+			console.log('--------------------------------------------\n');
+		}
+		managerSays();
 	});
 };
 
 function checkLow() {
-	connection.query('SELECT * FROM products WHERE stock_quantity < 50', function(err, res) {
+	connection.query('SELECT * FROM products WHERE stock_quantity <= 50', function(err, res) {
 		if (err) throw err;
 		for (var i = 0; i < res.length; i++) {
 			console.log('\nID: ' + res[i].item_id);
