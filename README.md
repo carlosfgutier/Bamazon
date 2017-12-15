@@ -14,11 +14,11 @@ picture of receipt
 ### Manager Sign-in
 To sign in as a manager, type "node bamazonManager.js" in your terminal. If your sign-in was successful, the following menu should appear:
 
-picture of managerHome
+![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/managerHome.png)
 
 Follow the steps on the screen to complete the corresponding action. Please make sure to fill out all fields, otherwise a message will prompt you try again.
 
-errorMessage picture
+![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/errorPrompt.png)
 
 example of succesful action picture
 
