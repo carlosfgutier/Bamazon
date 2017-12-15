@@ -1,6 +1,8 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 
+var inStock;
+
 var connection = mysql.createConnection({
   host: "localhost",
   port: 8889,
@@ -34,7 +36,6 @@ function managerSays() {
 			addItem();
 
 		} else if (answer.order == 'Restock inventory') {
-			console.log('restocking inventory');
 			restock();
 
 		} else if (answer.order == 'Log out') {
@@ -51,7 +52,7 @@ function checkInventory() {
 	connection.query('SELECT * FROM products', function(err, res) {
 		if (err) throw err;
 	    console.log(res);
-	    keepWorking();
+	    managerSays();
 	});
 };
 
@@ -64,7 +65,7 @@ function checkLow() {
 			console.log('In Stock: ' + res[i].stock_quantity + '\n');
 			console.log('--------------------------------------------\n');
 		}
-		keepWorking();
+		managerSays();
 	});
 };
 
@@ -73,22 +74,22 @@ function addItem() {
 		{
 			name: 'item',
 			type: 'input',
-			message: 'Type the name of the item you want to add'
+			message: 'Type the name of the item you want to add.'
 		},
 		{
 			name: 'department',
 			type: 'input',
-			message: 'Which department does this item belong'
+			message: 'Which department does this item belong?'
 		},
 		{
 			name: 'cost',
 			type: 'input',
-			message: 'What is the price for a unite of this item'
+			message: 'What is the price for a unit of this item?'
 		},
 		{
 			name: 'ammount',
 			type: 'input',
-			message: 'How many would you like to add'
+			message: 'How many would you like to add?'
 		}
 	]).then(function(answer) {
 		if (answer.item != '' 
@@ -111,53 +112,38 @@ function addItem() {
 function restock() {
 	inquirer.prompt([
 		{
-			name: 'sortBy',
-			type: 'list',
-			message: 'Search item by: '
-			choices: ['Name', 'ID']
-		}
-	]).then(function(answer) {
-		if (answer.sortBy == 'Name') {
-			sortByName();
-		} else if (answer.sortBy == 'ID') {
-			sortById();
-		}
-	})
-};
-
-
-//OTHER FUNCTIONS 
-//--------------------------------------------------------
-function sortByName() {
-	inquirer.prompt([
-		{
-			name: 'byName',
+			name: 'ID',
 			type: 'input',
-			message: 'What is the name of the product?'
+			message: 'Type the ID of the item you want to change' 
 		},
 		{
 			name: 'ammount',
 			type: 'input',
-			message: 'How many do you want to add?'
+			message: 'How many units do you want to add?'
 		}
 	]).then(function(answer) {
-		if (answer.byName != '' && answer.ammount != '') {
-
+		if (answer.ID != '' && answer.ammount != '') {
+			connection.query('SELECT * FROM products', function(err, res) {
+				if (err) {
+					console.log(err);
+				} else {
+					inStock = res[(answer.ID - 1)].stock_quantity;
+					connection.query('UPDATE products SET stock_quantity = ' + (inStock + answer.ammount) + ' WHERE product_name = "' + answer.ID + '";', function(error, response) {
+						if (error) throw error;
+						console.log('\n' + inStock + '\n');
+						restockAnother();
+					});
+				}
+			});
 		} else {
-
-
-
-
-
-
-
-
-			
+			console.log('\nPlease answer all fields\n');
+			managerSays();
 		}
-	})
+	});
 };
 
-
+// OTHER FUNCTIONS 
+// --------------------------------------------------------
 function addAnother() {
 	inquirer.prompt([
 		{
@@ -169,24 +155,92 @@ function addAnother() {
 		if (answer.oneMore === true) {
 			addItem();
 		} else {
-			keepWorking();
+			managerSays();
 		}
 	});
 };
 
-function keepWorking() {
+function restockAnother() {
 	inquirer.prompt([
 		{
-			name: 'again',
+			name: 'oneMore',
 			type: 'confirm',
-			message: 'Would you like to perform another action?'
+			message: 'Would you like to restock another item?'
 		}
 	]).then(function(answer) {
-		if (answer.again === true) {
-			managerSays();
+		if (answer.oneMore === true) {
+			restock();
 		} else {
-			console.log('\nHave a Great Day\n');
-			connection.end();
+			managerSays();
 		}
 	});
 };
+
+// function sortByName() {
+// 	inquirer.prompt([
+// 		{
+// 			name: 'byName',
+// 			type: 'input',
+// 			message: 'What is the name of the product?'
+// 		},
+// 		{
+// 			name: 'ammount',
+// 			type: 'input',
+// 			message: 'How many do you want to add?'
+// 		}
+// 	]).then(function(answer) {
+// 		if (answer.byName != '' && answer.ammount != '') {
+// 			connection.query('SELECT * FROM products', function(err, res) {
+// 				if (err) throw err;
+// 				console.log(res);
+// 				inStock = res[(answer.byName - 1)].stock_quantity;
+
+// 				console.log('IT WORKS');
+// 			});
+			// connection.query('UPDATE products SET stock_quantity = ' + (5 + answer.ammount) + ' WHERE product_name = "' + answer.byName + '";', function(err, res) {
+			// 	if (err) throw err;
+			// 	console.log('It worked');
+			// });
+	// 	} else {
+	// 		console.log('\nPlease answer all fields\n');
+	// 		restock();
+	// 	}
+	// })
+// };
+
+// function restock() {
+// 	inquirer.prompt([
+// 		{
+// 			name: 'sortBy',
+// 			type: 'list',
+// 			message: 'Select item by: ',
+// 			choices: ['Name', 'ID', 'go back']
+// 		}
+// 	]).then(function(answer) {
+// 		if (answer.sortBy == 'Name') {
+// 			sortByName();
+// 		} else if (answer.sortBy == 'ID') {
+// 			// sortById();
+// 			console.log('by id');
+// 		} else if (answer.sortBy == 'go back') {
+// 			managerSays();
+// 		}
+// 	})
+// };
+
+// function keepWorking() {
+// 	inquirer.prompt([
+// 		{
+// 			name: 'again',
+// 			type: 'confirm',
+// 			message: 'Would you like to perform another action?'
+// 		}
+// 	]).then(function(answer) {
+// 		if (answer.again === true) {
+// 			managerSays();
+// 		} else {
+// 			console.log('\nHave a Great Day\n');
+// 			connection.end();
+// 		}
+// 	});
+// };
