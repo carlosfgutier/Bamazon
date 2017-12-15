@@ -11,7 +11,7 @@ Once you sign in, follow the steps to complete your purchase. After a succesful 
 
 picture of receipt
 
-##Manager Sign-in
+## Manager Sign-in
 To sign in as a manager, type "node bamazonManager.js" in your terminal. If your sign-in was successful, the following menu should appear:
 
 picture of managerHome
