@@ -49,7 +49,7 @@ This example walks you through how to add a new item into the invetory as a mana
 
 7. If the action was succesful you should see a message that looks like this:
 
-![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/step7.png)
+![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/success.png)
 
 
 
