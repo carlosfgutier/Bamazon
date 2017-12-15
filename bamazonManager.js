@@ -13,7 +13,6 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
 	if (err) throw err;
-	console.log("connected as id " + connection.threadId + "\n");
 	managerSays();
 });
 
@@ -39,6 +38,7 @@ function managerSays() {
 			restock();
 
 		} else if (answer.order == 'Log out') {
+			console.log('\nHave a great day. Good bye.');
 			connection.end();
 		}
 	})
@@ -121,7 +121,7 @@ function restock() {
 		{
 			name: 'ID',
 			type: 'input',
-			message: 'Type the ID of the item you want to change' 
+			message: 'Type the ID of the item you want to restock' 
 		},
 		{
 			name: 'ammount',
@@ -135,9 +135,9 @@ function restock() {
 					console.log(err);
 				} else {
 					inStock = res[(answer.ID - 1)].stock_quantity;
-					connection.query('UPDATE products SET stock_quantity = ' + (inStock + answer.ammount) + ' WHERE product_name = "' + answer.ID + '";', function(error, response) {
+					connection.query('UPDATE products SET stock_quantity = ' + (parseInt(inStock) + parseInt(answer.ammount)) + ' WHERE item_id = ' + answer.ID + ';', function(error, response) {
 						if (error) throw error;
-						console.log('\n' + inStock + '\n');
+						console.log('\nYou have successfully added ' + answer.ammount + ' items with an ID of ' + answer.ID + ' to the inventory!\n')
 						restockAnother();
 					});
 				}
