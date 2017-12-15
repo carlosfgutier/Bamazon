@@ -1,5 +1,5 @@
 # Bamazon
-Bamazon grants you access to the most extensive inventory of anything you can imagine. As a costumer, you can purchase any ammount of any of the avaliable items in stock. If you are a manager, Bamazon lets you check the inventory, add new items for sale, and replenish items that are low in stock.
+Bamazon grants you access to the most extensive inventory of anything you can imagine. As a costumer, you can purchase any amount of any of the available items in stock. If you are a manager, Bamazon lets you check the inventory, add new items for sale, and replenish items that are low in stock.
 
 ## Instructions
 ### Costumer Sign-in
@@ -7,21 +7,19 @@ To sign in as costumer, type "node bamazonCostumer.js" in your terminal. If your
 
 ![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/costumerHome.png)
 
-Once you sign in, follow the steps to complete your purchase. After a succesful purchase, you will recieve a receipt and a prompt asking you what you would like to do next
-
-picture of receipt
+Once you sign in, follow the steps to complete your purchase. After a successful purchase, you will receive a receipt and a prompt asking you what you would like to do next
 
 ### Manager Sign-in
 To sign in as a manager, type "node bamazonManager.js" in your terminal. If your sign-in was successful, the following menu should appear:
 
 ![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/managerHome.png)
 
-Follow the steps on the screen to complete the corresponding action. Please make sure to fill out all fields, otherwise a message will prompt you try again.
+Follow the steps on the screen to complete the corresponding action. Please make sure to fill out all fields, otherwise, a message will prompt you to try again.
 
 ![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/errorPrompt.png)
 
 ### Ex.
-This example walks you through how to add a new item into the invetory as a manager.
+This example walks you through how to add a new item to the inventory as a manager.
 
 1. Type "node bamazonManager.js" in your terminal.
 
@@ -47,10 +45,9 @@ This example walks you through how to add a new item into the invetory as a mana
 
 ![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/step6.png)
 
-7. If the action was succesful you should see a message that looks like this:
+7. If the action was successful you should see a message that looks like this:
 
 ![alt text](https://raw.githubusercontent.com/carlosfgutier/Bamazon/master/images/success.png)
-
 
 
 
