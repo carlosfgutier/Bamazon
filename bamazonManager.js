@@ -35,7 +35,7 @@ function managerSays() {
 
 		} else if (answer.order == 'Restock inventory') {
 			console.log('restocking inventory');
-			keepWorking();
+			restock();
 
 		} else if (answer.order == 'Log out') {
 			connection.end();
@@ -43,6 +43,9 @@ function managerSays() {
 	})
 };
 
+
+//MAIN FUNCTIONS
+//--------------------------------------------------------
 function checkInventory() {
 	console.log('\nStocked Items\n');
 	connection.query('SELECT * FROM products', function(err, res) {
@@ -104,6 +107,56 @@ function addItem() {
 		}
 	});
 };
+
+function restock() {
+	inquirer.prompt([
+		{
+			name: 'sortBy',
+			type: 'list',
+			message: 'Search item by: '
+			choices: ['Name', 'ID']
+		}
+	]).then(function(answer) {
+		if (answer.sortBy == 'Name') {
+			sortByName();
+		} else if (answer.sortBy == 'ID') {
+			sortById();
+		}
+	})
+};
+
+
+//OTHER FUNCTIONS 
+//--------------------------------------------------------
+function sortByName() {
+	inquirer.prompt([
+		{
+			name: 'byName',
+			type: 'input',
+			message: 'What is the name of the product?'
+		},
+		{
+			name: 'ammount',
+			type: 'input',
+			message: 'How many do you want to add?'
+		}
+	]).then(function(answer) {
+		if (answer.byName != '' && answer.ammount != '') {
+
+		} else {
+
+
+
+
+
+
+
+
+			
+		}
+	})
+};
+
 
 function addAnother() {
 	inquirer.prompt([
